@@ -1,4 +1,6 @@
-public class _2048 
+import java.util.Random;
+
+public class _2048
 {
 	private final int rows = 4;
 	private final int cols = 4;
@@ -13,7 +15,17 @@ public class _2048
 	 */
 	public _2048()
 	{
+		board = new int[4][4];
 
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[r].length; c++)
+			{
+				board[r][c] = 0;
+			}
+		}
+
+		previousBoard = new int[4][4];
 	}
 	
 	/**
@@ -26,7 +38,17 @@ public class _2048
 	 */
 	public _2048(int[][] board)
 	{
+		this.board = board;
 
+		previousBoard = new int[4][4];
+
+//		for (int r = 0; r < board.length; r++)
+//		{
+//			for (int c = 0; c < board[r].length; c++)
+//			{
+//				previousBoard[r][c] = board[r][c];
+//			}
+//		}
 	}
 	
 	/**
@@ -38,7 +60,33 @@ public class _2048
 	 */
 	private void generateTile()
 	{
+		Random randy = new Random(11);
+		int tile = 0;
+		int chance = randy.nextInt();
 
+		if(chance <= 2)
+		{
+			tile = 4;
+		}
+
+		else if(chance > 2)
+		{
+			tile = 2;
+		}
+
+		Random row = new Random(4);
+		Random column = new Random(4);
+
+		int randomRow = row.nextInt();
+		int randomColumn = column.nextInt();
+
+		while(board[randomRow][randomColumn] != 0)
+		{
+			randomRow = row.nextInt();
+			randomColumn = column.nextInt();
+		}
+
+		board[randomRow][randomColumn] = tile;
 	}
 	
 	/**
@@ -47,7 +95,18 @@ public class _2048
 	 */
 	private boolean full()
 	{
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[r].length; c++)
+			{
+				if(board[r][c] == 0)
+				{
+					return false;
+				}
+			}
+		}
 
+		return true;
 	}
 	
 	/**
@@ -56,7 +115,7 @@ public class _2048
 	 */
 	public int[][] getBoard()
 	{
-		
+		return board;
 	}
 	
 	/**
@@ -65,7 +124,17 @@ public class _2048
 	 */
 	public int getScore()
 	{
-		
+		int score = 0;
+
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[r].length; c++)
+			{
+				score += board[r][c];
+			}
+		}
+
+		return score;
 	}
 	
 	/**
@@ -84,7 +153,7 @@ public class _2048
 	 */
 	public void move(String direction)
 	{
-		
+		previousBoard = board;
 	}
 	
 	/**
