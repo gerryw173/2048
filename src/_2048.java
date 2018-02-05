@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 public class _2048
 {
@@ -60,9 +61,9 @@ public class _2048
 	 */
 	private void generateTile()
 	{
-		Random randy = new Random(11);
+		Random randy = new Random();
 		int tile = 0;
-		int chance = randy.nextInt();
+		int chance = randy.nextInt(11) + 1;
 
 		if(chance <= 2)
 		{
@@ -74,16 +75,13 @@ public class _2048
 			tile = 2;
 		}
 
-		Random row = new Random(4);
-		Random column = new Random(4);
-
-		int randomRow = row.nextInt();
-		int randomColumn = column.nextInt();
+		int randomRow = randy.nextInt(4);
+		int randomColumn = randy.nextInt(4);
 
 		while(board[randomRow][randomColumn] != 0)
 		{
-			randomRow = row.nextInt();
-			randomColumn = column.nextInt();
+			randomRow = randy.nextInt(4);
+			randomColumn = randy.nextInt(4);
 		}
 
 		board[randomRow][randomColumn] = tile;
@@ -153,7 +151,14 @@ public class _2048
 	 */
 	public void move(String direction)
 	{
-		previousBoard = board;
+		// saves current board into previousBoard
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[r].length; c++)
+			{
+				previousBoard[r][c] = board[r][c];
+			}
+		}
 	}
 	
 	/**
@@ -161,7 +166,31 @@ public class _2048
 	 */
 	private void moveUp()
 	{
+		ArrayList<Integer> column = new ArrayList<Integer>();
 
+		for (int c = 0; c < board[0].length; c++)
+		{
+			// fills out column with the current row
+			for (int r = 0; r < board.length; r++)
+			{
+				column.add(board[r][c]);
+			}
+
+			for (int i = column.size(); i >= 0; i--)
+			{
+				if(i == 0)
+				{
+
+				}
+
+				//fix
+				else if(column.get(i) == column.get(i - 1))
+				{
+					column.set(i - 1, column.get(i) * 2);
+					column.remove(i);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -193,7 +222,13 @@ public class _2048
 	 */
 	public void undo()
 	{
-
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[r].length; c++)
+			{
+				board[r][c] = previousBoard[r][c];
+			}
+		}
 	}
 	
 	/**
@@ -202,7 +237,8 @@ public class _2048
 	 */
 	public boolean gameOver()
 	{
-	
+		//try to move in all directions
+		return false;
 	}
 	
 	/**

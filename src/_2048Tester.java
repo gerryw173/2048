@@ -2,14 +2,14 @@ public class _2048Tester
 {
 	public static void main(String[] args) 
 	{
-		//case1();
+		case1();
 		//case2();
 		//case3();
 		//case4();
 		//case5();
 		//undo();
 		//gameOverFalse();
-		gameOverTrue();
+		//gameOverTrue();
 	}
 
 	private static void case1()
