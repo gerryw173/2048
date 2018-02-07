@@ -59,7 +59,7 @@ public class _2048
 	 * 
 	 * Does nothing if the board is full.
 	 */
-	private void generateTile()
+	public void generateTile()
 	{
 		Random randy = new Random();
 		int tile = 0;
@@ -91,7 +91,7 @@ public class _2048
 	 * Returns false if the board contains a 0, true otherwise.
 	 * @return
 	 */
-	private boolean full()
+	public boolean full()
 	{
 		for (int r = 0; r < board.length; r++)
 		{
@@ -164,41 +164,103 @@ public class _2048
 	/**
 	 * Shifts all the tiles up, combines like tiles that collide.
 	 */
-	private void moveUp()
+	public void moveUp()
 	{
 		ArrayList<Integer> column = new ArrayList<Integer>();
 
 		for (int c = 0; c < board[0].length; c++)
 		{
-			// fills out column with the current row
+			// fills out column ArrayList with the current column
 			for (int r = 0; r < board.length; r++)
 			{
 				column.add(board[r][c]);
 			}
 
-			for (int i = column.size(); i >= 0; i--)
+			// removes all the 0's to make it easier to add em together
+			for (int i = column.size() - 1; i >= 0; i--)
 			{
-				if(i == 0)
+				if(column.get(i) == 0)
 				{
-
-				}
-
-				//fix
-				else if(column.get(i) == column.get(i - 1))
-				{
-					column.set(i - 1, column.get(i) * 2);
 					column.remove(i);
 				}
 			}
+
+			for (int i = 0; i < column.size() - 1; i++)
+			{
+				Integer x = column.get(i); // current Integer
+
+				if(x == column.get(i+1)) // if current Integer is equal to the next one
+				{
+					column.set(i, x + column.get(i + 1));
+					column.remove(i + 1); // after adding it removes it to get rid of duplicates
+				}
+			}
+
+			int length = board.length - column.size(); // difference in the board length and column size to add in 0s later to column
+
+			for (int i = column.size() - 1; i < board.length; i++)
+			{
+				column.add(0);
+			}
+
+			for (int r = 0; r < board.length; r++)
+			{
+				board[r][c] = column.get(r);
+			}
+
+			column.clear(); // allows next iteration of loop to add new elements
 		}
 	}
 	
 	/**
 	 * Shifts all the tiles down, combines like tiles that collide.
 	 */
-	private void moveDown()
+	public void moveDown()
 	{
-	
+		ArrayList<Integer> column = new ArrayList<Integer>();
+
+		for (int c = 0; c < board[0].length; c++)
+		{
+			// fills out column ArrayList with the current column
+			for (int r = 0; r < board.length; r++)
+			{
+				column.add(board[r][c]);
+			}
+
+			// removes all the 0's to make it easier to add em together
+			for (int i = column.size() - 1; i >= 0; i--)
+			{
+				if(column.get(i) == 0)
+				{
+					column.remove(i);
+				}
+			}
+
+			for (int i = 0; i < column.size() - 1; i++)
+			{
+				Integer x = column.get(i); // current Integer
+
+				if(x == column.get(i+1)) // if current Integer is equal to the next one
+				{
+					column.set(i, x + column.get(i + 1));
+					column.remove(i + 1); // after adding it removes it to get rid of duplicates
+				}
+			}
+
+			int length = board.length - column.size(); // difference in the board length and column size to add in 0s later to column
+
+			for (int i = 0; i < length; i++)
+			{
+				column.add(0,0); //adds 0 in the front
+			}
+
+			for (int r = board.length - 1; r >= 0; r--)
+			{
+				board[r][c] = column.get(r);
+			}
+
+			column.clear(); // allows next iteration of loop to add new elements
+		}
 	}
 	
 	/**
@@ -206,7 +268,24 @@ public class _2048
 	 */
 	private void moveLeft()
 	{
+		ArrayList<Integer> row = new ArrayList<Integer>();
 
+		for (int r = 0; r < board.length; r++)
+		{
+			for (int c = 0; c < board[0].length; c++)
+			{
+				row.add(board[r][c]);
+			}
+
+			// removes all the 0's to make it easier to add em together
+			for (int i = row.size() - 1; i >= 0; i--)
+			{
+				if(row.get(i) == 0)
+				{
+					row.remove(i);
+				}
+			}
+		}
 	}
 	
 	/**
